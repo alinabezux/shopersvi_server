@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { MONO_TOKEN, CLIENT_URL, SERVER_URL } = require('../configs/configs');
+const configs = require('../configs/configs')
 const { CASH } = require('../configs/order.enum');
 const ApiError = require('../errors/ApiError');
 
@@ -23,14 +23,14 @@ const createInvoice = async (order) => {
                 code: item.article,
             }))
         },
-        redirectUrl: `${CLIENT_URL}/order/${order.orderID}`,
-        webHookUrl: `${SERVER_URL}/webhook/paymentStatus`,
+        redirectUrl: `${configs.CLIENT_URL}/order/${order.orderID}`,
+        webHookUrl: `${configs.SERVER_URL}/webhook/paymentStatus`,
     };
 
     try {
         const response = await axios.post('https://api.monobank.ua/api/merchant/invoice/create', invoiceData, {
             headers: {
-                'X-Token': MONO_TOKEN,
+                'X-Token': configs.MONO_TOKEN,
                 'Content-Type': 'application/json'
             }
         });
@@ -50,7 +50,7 @@ const getInvoiceStatus = async (invoiceId) => {
     try {
         const response = await axios.get(url, {
             headers: {
-                'X-Token': MONO_TOKEN,
+                'X-Token': configs.MONO_TOKEN,
                 'Content-Type': 'application/json'
             }
         });
@@ -70,7 +70,7 @@ const getPublicKey = async () => {
         try {
             const response = await axios.get('https://api.monobank.ua/api/merchant/pubkey', {
                 headers: {
-                    'X-Token': MONO_TOKEN,
+                    'X-Token': configs.MONO_TOKEN,
                     'Content-Type': 'application/json'
                 }
             });
