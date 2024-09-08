@@ -33,7 +33,13 @@ module.exports = {
                 throw new ApiError(400, 'Немає даних')
             }
 
+            console.log('newInfo')
+            console.log(newInfo)
+
             const updatedUser = await User.findByIdAndUpdate(req.params.userId, newInfo, { new: true });
+            console.log('updatedUser')
+            console.log(updatedUser)
+
             res.status(200).json(updatedUser);
 
         } catch (e) {

@@ -14,7 +14,15 @@ const orderSchema = new Schema({
     instagram: { type: String },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: {
+        type: String,
+        validate: {
+            validator: function (v) {
+                return /^\d{10}$/.test(v);
+            },
+            message: props => `${props.value} не правильний номер телефону!`
+        },
+    },
     city: {
         ref: { type: String },
         description: { type: String },

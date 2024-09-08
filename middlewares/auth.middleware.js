@@ -55,10 +55,12 @@ module.exports = {
         try {
             const { id } = req.decoded;
             const { userId } = req.params;
-            // console.log(userId);
+            
+            console.log('id');
+            console.log(id);
 
-            // console.log('user._id');
-            // console.log(req.user._id); // objectId
+            console.log('userId');
+            console.log(userId); 
 
             if (id !== userId) {
                 throw new ApiError(403, 'Немає доступу.');

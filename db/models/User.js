@@ -5,7 +5,7 @@ const userSchema = new Schema({
     surname: String,
     instagram: String,
     phone: {
-        type: Number,
+        type: String,
         validate: {
             validator: function (v) {
                 return /^\d{10}$/.test(v);
