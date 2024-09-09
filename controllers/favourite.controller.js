@@ -7,6 +7,7 @@ module.exports = {
             const productsData = productsInFavourite.map(productInFavourite => ({
                 ...productInFavourite._product._doc,
             }));
+
             console.log('productsData')
             console.log(productsData)
 
@@ -19,16 +20,23 @@ module.exports = {
 
     addToFavourite: async (req, res, next) => {
         try {
-            let productInFavourite = await ProductInFavourite.create({
+            const { userId, productId } = req.params;
+            let existingFavorite = await ProductInFavourite.findOne({ _user: userId, _product: productId });
+            if (existingFavorite) {
+                return res.status(400).json({ message: 'Продукт вже є у списку бажань.' });
+            }
+
+            const productInFavourite = await ProductInFavourite.create({
                 _user: req.params.userId,
                 _product: req.params.productId
             });
 
-            productInFavourite = await ProductInFavourite.findById(productInFavourite._id).populate('_product');
-            console.log('productInFavourite')
-            console.log(productInFavourite)
+            const populatedFavourite = await ProductInFavourite.findById(productInFavourite._id).populate('_product');
 
-            res.status(200).json(productInFavourite)
+            console.log('populatedFavourite')
+            console.log(populatedFavourite)
+
+            res.status(200).json(populatedFavourite)
         } catch (e) {
             next(e)
         }

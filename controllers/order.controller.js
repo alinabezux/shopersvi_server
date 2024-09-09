@@ -1,5 +1,4 @@
 const Order = require("../db/models/Order");
-const Product = require("../db/models/Product");
 const ProductInBasket = require("../db/models/ProductInBasket");
 const User = require("../db/models/User");
 const ApiError = require("../errors/ApiError");

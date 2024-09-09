@@ -39,7 +39,6 @@ module.exports = {
 
                 productInBasket = await ProductInBasket.findById(productInBasket._id).populate('_product');
             }
-            console.log(productInBasket);
 
             res.status(200).json(productInBasket);
         } catch (e) {
