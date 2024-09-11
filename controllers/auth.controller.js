@@ -24,7 +24,7 @@ module.exports = {
             //     sameSite: 'None',
             //     maxAge: 15 * 60 * 1000,
             // })
-            
+
             res.status(200).json(info);
         } catch (e) {
             next(e);
@@ -38,6 +38,7 @@ module.exports = {
 
             const tokenPair = OAuthService.generateTokenPair({ id: _user });
             const newInfo = await OAuthService.saveTokens(_user, tokenPair)
+            console.log('newInfo');
             console.log(newInfo);
 
             // res.cookie('refreshToken', newInfo.refreshToken, {

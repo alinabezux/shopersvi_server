@@ -103,7 +103,7 @@ module.exports = {
             console.log(`tokenInfo в checkRefreshToken - ${tokenInfo}`)
 
             if (!tokenInfo) {
-                throw new ApiError(401, 'Рефреш токен не дійсний.')
+                throw new ApiError(401, 'tokenInfo немає.')
             }
 
             req.tokenInfo = tokenInfo;
