@@ -18,11 +18,7 @@ module.exports = {
 
             const info = await OAuthService.saveTokens(user._id, tokenPair)
 
-            res.cookie('refreshToken', info.refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-                secure: true,
-                sameSite: 'None'
-            })
+            res.cookie('refreshToken', info.refreshToken, { maxAge: 2 * 60 * 1000 })
             res.status(200).json(info);
         } catch (e) {
             next(e);
@@ -38,11 +34,7 @@ module.exports = {
             const newInfo = await OAuthService.saveTokens(_user, tokenPair)
             console.log(newInfo);
 
-            res.cookie('refreshToken', newInfo.refreshToken, {
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-                secure: true,
-                sameSite: 'None'
-            })
+            res.cookie('refreshToken', newInfo.refreshToken, { maxAge: 2 * 60 * 1000 })
             res.status(200).json(newInfo);
         } catch (e) {
             next(e);
