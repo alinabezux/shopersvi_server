@@ -22,7 +22,7 @@ module.exports = {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'None',
-                maxAge: 2 * 60 * 1000,
+                maxAge: 15 * 60 * 1000,
             })
             res.status(200).json(info);
         } catch (e) {
@@ -43,7 +43,7 @@ module.exports = {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'None',
-                maxAge: 2 * 60 * 1000,
+                maxAge: 15 * 60 * 1000,
             })
             res.status(200).json(newInfo);
         } catch (e) {
