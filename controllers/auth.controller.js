@@ -18,7 +18,12 @@ module.exports = {
 
             const info = await OAuthService.saveTokens(user._id, tokenPair)
 
-            res.cookie('refreshToken', info.refreshToken, { maxAge: 2 * 60 * 1000 })
+            res.cookie('refreshToken', info.refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'None',
+                maxAge: 2 * 60 * 1000,
+            })
             res.status(200).json(info);
         } catch (e) {
             next(e);
@@ -34,7 +39,12 @@ module.exports = {
             const newInfo = await OAuthService.saveTokens(_user, tokenPair)
             console.log(newInfo);
 
-            res.cookie('refreshToken', newInfo.refreshToken, { maxAge: 2 * 60 * 1000 })
+            res.cookie('refreshToken', newInfo.refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'None',
+                maxAge: 2 * 60 * 1000,
+            })
             res.status(200).json(newInfo);
         } catch (e) {
             next(e);
