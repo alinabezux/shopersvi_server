@@ -55,12 +55,12 @@ module.exports = {
         try {
             const { id } = req.decoded;
             const { userId } = req.params;
-            
+
             console.log('id');
             console.log(id);
 
             console.log('userId');
-            console.log(userId); 
+            console.log(userId);
 
             if (id !== userId) {
                 throw new ApiError(403, 'Немає доступу.');
@@ -90,8 +90,9 @@ module.exports = {
 
     checkRefreshToken: async (req, res, next) => {
         try {
-            const { refreshToken } = req.cookies;
-            console.log(req.cookies)
+            const refreshToken = req.body.refresh;
+            console.log('refreshToken')
+            console.log(refreshToken)
 
             if (!refreshToken) {
                 throw new ApiError(401, 'Немає токену.');
