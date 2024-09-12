@@ -56,9 +56,8 @@ module.exports = {
 
     logOut: async (req, res, next) => {
         try {
-            const { refreshToken } = req.cookies;
-            await OAuth.deleteOne({ refreshToken });
-            res.clearCookie('refreshToken');
+            const { accessToken } = req.tokenInfo;
+            await OAuth.deleteOne({ accessToken });
             res.sendStatus(204);
         } catch (e) {
             next(e);
