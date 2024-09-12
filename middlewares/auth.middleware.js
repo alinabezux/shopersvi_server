@@ -22,6 +22,7 @@ module.exports = {
             next(e);
         }
     },
+
     checkAccessToken: async (req, res, next) => {
         try {
             const authorizationString = req.headers.authorization;
@@ -71,7 +72,9 @@ module.exports = {
             const { id } = req.decoded
 
             const user = await User.findById(id);
-
+            console.log('user')
+            console.log(user)
+            
             if (!user || user.isAdmin !== true) {
                 throw new ApiError(403, 'Немає доступу.');
             }

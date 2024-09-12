@@ -50,11 +50,13 @@ module.exports = {
             const { prevImage } = req.body;
             const { categoryId } = req.params;
 
+            console.log('prevImage')
             console.log(req.body)
 
             if (!req.files.image) {
                 return res.status(400).json({ message: 'No image file provided' });
             }
+
             if (prevImage) {
                 await S3service.deleteImage('categories', categoryId, prevImage);
             }
@@ -76,7 +78,7 @@ module.exports = {
 
                 console.log('categoryId', categoryId);
                 console.log('imageUrl', imageUrl);
-                
+
                 if (imageUrl) {
                     await S3service.deleteImage('categories', categoryId, imageUrl);
                 }
