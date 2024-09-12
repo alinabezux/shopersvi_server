@@ -18,13 +18,6 @@ module.exports = {
 
             const info = await OAuthService.saveTokens(user._id, tokenPair)
 
-            // res.cookie('refreshToken', info.refreshToken, {
-            //     httpOnly: true,
-            //     secure: process.env.NODE_ENV === 'production',
-            //     sameSite: 'None',
-            //     maxAge: 15 * 60 * 1000,
-            // })
-
             res.status(200).json(info);
         } catch (e) {
             next(e);
@@ -34,19 +27,9 @@ module.exports = {
     refresh: async (req, res, next) => {
         try {
             const { _user } = req.tokenInfo;
-            // console.log(`_user - ${_user}`);
-
+            
             const tokenPair = OAuthService.generateTokenPair({ id: _user });
             const newInfo = await OAuthService.saveTokens(_user, tokenPair)
-            console.log('newInfo');
-            console.log(newInfo);
-
-            // res.cookie('refreshToken', newInfo.refreshToken, {
-            //     httpOnly: true,
-            //     secure: process.env.NODE_ENV === 'production',
-            //     sameSite: 'None',
-            //     maxAge: 15 * 60 * 1000,
-            // })
 
             res.status(200).json(newInfo);
         } catch (e) {

@@ -85,8 +85,6 @@ module.exports = {
     checkRefreshToken: async (req, res, next) => {
         try {
             const refreshToken = req.body.refresh;
-            console.log('refreshToken')
-            console.log(refreshToken)
 
             if (!refreshToken) {
                 throw new ApiError(401, 'Немає токену.');
@@ -94,7 +92,6 @@ module.exports = {
 
             OAuthService.checkToken(refreshToken, 'refreshToken');
             const tokenInfo = await OAuth.findOne({ refreshToken });
-            console.log(`tokenInfo в checkRefreshToken - ${tokenInfo}`)
 
             if (!tokenInfo) {
                 throw new ApiError(401, 'tokenInfo немає.')
