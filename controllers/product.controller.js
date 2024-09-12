@@ -122,9 +122,7 @@ module.exports = {
             }
 
             if (newInfo.article) {
-                console.log(newInfo.article);
                 const product = await Product.findOne({ article: newInfo.article });
-                console.log(product);
 
                 if (product) {
                     return res.status(409).json({ message: 'Продукт з таким артикулом вже існує.' });
