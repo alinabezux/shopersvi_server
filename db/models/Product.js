@@ -8,7 +8,7 @@ const productSchema = new Schema({
         default: [],
     },
     _category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-    _type: { type: Schema.Types.ObjectId, ref: 'Type', required: true },
+    _type: { type: Schema.Types.ObjectId, ref: 'Type'},
     info: {
         color: String,
         size: String,
