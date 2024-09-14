@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const categorySchema = new Schema({
-    name: {type: String, required: true, unique: true},
+    name: {type: String, required: true},
     image: String,
 })
 
