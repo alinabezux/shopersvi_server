@@ -29,19 +29,31 @@ module.exports = {
             }
 
             if (!_category && !_type) {
-                products = await Product.find({}).limit(limit).skip((page - 1) * limit);
+                products = (await Product.find({})
+                    .sort({ createdAt: -1 })
+                    .limit(limit)
+                    .skip((page - 1) * limit));
                 count = await Product.countDocuments();
             }
             if (_category && !_type) {
-                products = await Product.find({ _category }).limit(limit).skip((page - 1) * limit);
+                products = await Product.find({ _category })
+                    .sort({ createdAt: -1 })
+                    .limit(limit)
+                    .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category });
             }
             if (!_category && _type) {
-                products = await Product.find({ _type }).limit(limit).skip((page - 1) * limit);
+                products = await Product.find({ _type })
+                    .sort({ createdAt: -1 })
+                    .limit(limit)
+                    .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _type });
             };
             if (_category && _type) {
-                products = await Product.find({ _category, _type }).limit(limit).skip((page - 1) * limit);
+                products = await Product.find({ _category, _type })
+                    .sort({ createdAt: -1 })
+                    .limit(limit)
+                    .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category, _type });
             }
 

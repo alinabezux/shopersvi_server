@@ -45,7 +45,7 @@ const createInvoice = async (order) => {
 const getInvoiceStatus = async (invoiceId) => {
     const url = `https://api.monobank.ua/api/merchant/invoice/status?invoiceId=${invoiceId}`;
 
-    console.log('Sending request to Monobank API for invoice status:', url);
+    // console.log('Sending request to Monobank API for invoice status:', url);
 
     try {
         const response = await axios.get(url, {
@@ -66,7 +66,7 @@ let cachedPublicKey = null;
 
 const getPublicKey = async () => {
     if (!cachedPublicKey) {
-        console.log('Fetching new public key from Monobank API');
+        // console.log('Fetching new public key from Monobank API');
         try {
             const response = await axios.get('https://api.monobank.ua/api/merchant/pubkey', {
                 headers: {
@@ -76,7 +76,7 @@ const getPublicKey = async () => {
             });
             cachedPublicKey = response.data;
         } catch (error) {
-            console.error('Error fetching public key:', error);
+            // console.error('Error fetching public key:', error);
             throw new ApiError(error.response.status, 'Failed to fetch public key from Monobank API');
         }
     }

@@ -101,7 +101,7 @@ module.exports = {
     updateOrderStatus: async (req, res, next) => {
         try {
             const newStatus = req.body.status;
-            console.log(newStatus);
+            // console.log(newStatus);
 
             const updatedOrder = await Order.findByIdAndUpdate(req.params.orderId, { status: newStatus }, { new: true });
 

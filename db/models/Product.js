@@ -8,7 +8,7 @@ const productSchema = new Schema({
         default: [],
     },
     _category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-    _type: { type: Schema.Types.ObjectId, ref: 'Type'},
+    _type: { type: Schema.Types.ObjectId, ref: 'Type' },
     info: {
         color: String,
         size: String,
@@ -18,6 +18,8 @@ const productSchema = new Schema({
     quantity: { type: Number, required: true, default: 1 },
     price: { type: Number, required: true },
     cashback: { type: Number, required: true }
-})
+},
+    { timestamps: true }
+)
 
 module.exports = model('Product', productSchema)
