@@ -26,8 +26,8 @@ app.use(fileUpload());
 app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
-    // origin: configs.CLIENT_URL,
-    origin: 'http://localhost:3000',
+    origin: configs.CLIENT_URL,
+    // origin: 'http://localhost:3000',
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Token', 'X-Sign']
 }));
 
@@ -53,8 +53,8 @@ const server = http.createServer(app);
 // Create Socket.IO server
 const io = socketIo(server, {
     cors: {
-        origin: 'http://localhost:3000',
-        // origin: configs.CLIENT_URL,
+        // origin: 'http://localhost:3000',
+        origin: configs.CLIENT_URL,
         methods: ["GET", "POST"]
     }
 });
