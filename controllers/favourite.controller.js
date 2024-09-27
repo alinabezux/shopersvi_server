@@ -8,9 +8,6 @@ module.exports = {
                 ...productInFavourite._product._doc,
             }));
 
-            console.log('productsData')
-            console.log(productsData)
-
             res.status(200).json(productsData);
 
         } catch (e) {

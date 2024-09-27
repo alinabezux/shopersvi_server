@@ -70,6 +70,7 @@ module.exports = {
 
     getProductById: async (req, res, next) => {
         try {
+            console.log(req.params.productId)
             const item = await Product.findById(req.params.productId);
             return res.status(200).json(item);
         } catch (e) {

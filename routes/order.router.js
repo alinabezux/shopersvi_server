@@ -6,6 +6,9 @@ const userMiddleware = require('../middlewares/user.middleware');
 orderRouter.post('/:userId',
     authMiddleware.checkAccessToken,
     userMiddleware.checkIfUserExists,
+    orderController.createOrderAuth);
+
+orderRouter.post('/',
     orderController.createOrder);
 
 orderRouter.get('/',

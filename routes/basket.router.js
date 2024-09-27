@@ -13,15 +13,15 @@ basketRouter.post('/:userId/:productId',
     userMiddleware.checkIfUserExists,
     authMiddleware.checkAccessToken,
     authMiddleware.isRightUser,
-    basketController.addToBasket);
+    basketController.addToBasketAuth);
 
-basketRouter.patch('/:userId/:productId',
+basketRouter.patch('/:userId/:productInBasketId',
     userMiddleware.checkIfUserExists,
     authMiddleware.checkAccessToken,
     authMiddleware.isRightUser,
     basketController.changeProductQuantity);
 
-basketRouter.delete('/:userId/:productId',
+basketRouter.delete('/:userId/:productInBasketId',
     userMiddleware.checkIfUserExists,
     authMiddleware.checkAccessToken,
     authMiddleware.isRightUser,

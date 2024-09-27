@@ -27,7 +27,6 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
     origin: configs.CLIENT_URL,
-    // origin: 'http://localhost:3000',
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Token', 'X-Sign']
 }));
 
@@ -53,7 +52,6 @@ const server = http.createServer(app);
 // Create Socket.IO server
 const io = socketIo(server, {
     cors: {
-        // origin: 'http://localhost:3000',
         origin: configs.CLIENT_URL,
         methods: ["GET", "POST"]
     }
@@ -72,7 +70,7 @@ const changeStream = Order.watch(pipeline);
 
 changeStream.on('change', (change) => {
     console.log('Change:', change);
-    io.emit('update', change); // Emit to all connected clients
+    io.emit('update', change); 
 });
 
 // Handle Socket.IO connections
@@ -92,4 +90,3 @@ server.listen(configs.PORT || 5000, configs.HOST, async () => {
     });
     console.log(`Backend server is running on port ${configs.PORT} !`);
 });
-

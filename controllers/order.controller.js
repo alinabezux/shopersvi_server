@@ -1,11 +1,9 @@
 const Order = require("../db/models/Order");
 const ProductInBasket = require("../db/models/ProductInBasket");
-const User = require("../db/models/User");
-const ApiError = require("../errors/ApiError");
 const monoService = require("../services/mono.service");
 
 module.exports = {
-    createOrder: async (req, res, next) => {
+    createOrderAuth: async (req, res, next) => {
         try {
             const userId = req.user._id;
 
@@ -18,15 +16,15 @@ module.exports = {
             const products = productsInBasket.map(productInBasket => {
                 return {
                     _productId: productInBasket._product._id,
-                    name: productInBasket._product.name,
-                    info: productInBasket._product?.info,
-                    quantity: productInBasket.quantity,
-                    price: productInBasket._product.price,
+                    article: productInBasket._product.article,
                     img: productInBasket._product.images[0],
-                    article: productInBasket._product.article
+                    name: productInBasket._product.name,
+                    color: productInBasket._product?.info?.color,
+                    size: productInBasket?.size,
+                    quantity: productInBasket.quantity,
+                    price: productInBasket._product.price
                 };
             });
-
 
             const orderData = {
                 ...req.body.order,
@@ -35,9 +33,10 @@ module.exports = {
             };
 
             const order = await Order.create(orderData);
-
             const invoice = await monoService.createInvoice(order)
+            // console.log('invoice:', invoice);
             const status = await monoService.getInvoiceStatus(invoice.invoiceId)
+            // console.log('status:', status);
 
             if (status.status === 'created') {
                 await ProductInBasket.deleteMany({ _user: userId });
@@ -48,6 +47,54 @@ module.exports = {
                     updatedOrder.paymentStatus = status.status;
                     updatedOrder.invoiceId = invoice.invoiceId;
 
+                    await updatedOrder.save();
+                }
+            }
+
+            res.status(200).json({ order, invoice });
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    createOrder: async (req, res, next) => {
+        try {
+            const productsInBasket = req.body.productsInBasket;
+
+            if (productsInBasket.length === 0) {
+                return res.status(400).json({ message: "No products in basket" });
+            }
+
+            const products = productsInBasket.map(productInBasket => {
+                return {
+                    _productId: productInBasket._id,
+                    article: productInBasket.article,
+                    img: productInBasket.images[0],
+                    name: productInBasket.name,
+                    color: productInBasket?.info?.color,
+                    size: productInBasket?.size,
+                    quantity: productInBasket.quantity,
+                    price: productInBasket.price,
+                };
+            });
+
+            const orderData = {
+                ...req.body.order,
+                orderItems: products
+            };
+
+            const order = await Order.create(orderData);
+            const invoice = await monoService.createInvoice(order);
+            // console.log('invoice:', invoice);
+
+            const status = await monoService.getInvoiceStatus(invoice.invoiceId)
+            // console.log('status:', status);
+
+            if (status.status === 'created') {
+                const updatedOrder = await Order.findOne({ 'orderID': status.reference });
+                if (updatedOrder) {
+                    updatedOrder.paymentStatus = status.status;
+                    updatedOrder.invoiceId = invoice.invoiceId;
                     await updatedOrder.save();
                 }
             }
@@ -78,7 +125,6 @@ module.exports = {
             next(e);
         }
     },
-
     getUserOrders: async (req, res, next) => {
         try {
             const orders = await Order.find({ _user: req.params.userId });
@@ -101,7 +147,6 @@ module.exports = {
     updateOrderStatus: async (req, res, next) => {
         try {
             const newStatus = req.body.status;
-            // console.log(newStatus);
 
             const updatedOrder = await Order.findByIdAndUpdate(req.params.orderId, { status: newStatus }, { new: true });
 

@@ -5,8 +5,15 @@ module.exports = {
         try {
             const productsInBasket = await ProductInBasket.find({ _user: req.params.userId }).populate('_product');
 
+            if (!productsInBasket.length) {
+                return res.status(404).json({ message: "Кошик порожній або користувача не існує" });
+            }
+
             const productsData = productsInBasket.map(productInBasket => ({
                 ...productInBasket._product._doc,
+                _id: productInBasket._id,
+                productId: productInBasket._product._id,
+                size: productInBasket.size,
                 quantity: productInBasket.quantity
             }));
 
@@ -16,12 +23,14 @@ module.exports = {
         }
     },
 
-    addToBasket: async (req, res, next) => {
+    addToBasketAuth: async (req, res, next) => {
         try {
-            const { quantity, options } = req.body;
+            const { quantity, size } = req.body;
+
             let productInBasket = await ProductInBasket.findOne({
                 _product: req.params.productId,
-                _user: req.params.userId
+                _user: req.params.userId,
+                size
             });
 
             if (productInBasket) {
@@ -34,11 +43,14 @@ module.exports = {
                 productInBasket = await ProductInBasket.create({
                     _user: req.params.userId,
                     _product: req.params.productId,
-                    quantity
+                    quantity,
+                    size
                 });
 
                 productInBasket = await ProductInBasket.findById(productInBasket._id).populate('_product');
             }
+            // console.log('addToBasket')
+            // console.log(productInBasket)
 
             res.status(200).json(productInBasket);
         } catch (e) {
@@ -48,14 +60,15 @@ module.exports = {
 
     deleteFromBasket: async (req, res, next) => {
         try {
-            let productInBasket = await ProductInBasket.findOne({ _product: req.params.productId, _user: req.params.userId })
+            const productInBasket = await ProductInBasket.findById(req.params.productInBasketId);
 
-            if (productInBasket) {
-                await ProductInBasket.deleteOne({ _id: productInBasket._id });
-                res.sendStatus(204);
-            } else {
-                res.status(404).json({ message: "Такого продукту не існує в даній корзині" });
+            if (!productInBasket) {
+                return res.status(404).json({ message: "Продукт у кошику не знайдено" });
             }
+
+            await ProductInBasket.findByIdAndDelete(req.params.productInBasketId);
+            res.sendStatus(204);
+
         } catch (e) {
             next(e)
         }
@@ -63,17 +76,16 @@ module.exports = {
 
     changeProductQuantity: async (req, res, next) => {
         try {
-            let updatedProductInBasket;
+            const { productInBasketId } = req.params;
+            const { quantity } = req.body;
 
-            let productInBasket = await ProductInBasket.findOne({ _product: req.params.productId, _user: req.params.userId })
-            if (productInBasket) {
-                updatedProductInBasket = await ProductInBasket.findOneAndUpdate(
-                    { _id: productInBasket._id },
-                    { quantity: req.body.quantity },
-                    { new: true }
-                )
-            } else {
-                res.status(404).json({ message: "Такого продукту не існує в даній корзині" });
+            let updatedProductInBasket = await ProductInBasket.findOneAndUpdate(
+                { _id: productInBasketId },
+                { quantity },
+                { new: true }
+            )
+            if (!updatedProductInBasket) {
+                return res.status(404).json({ message: "Продукт у кошику не знайдено" });
             }
             res.status(200).json(updatedProductInBasket)
         } catch (e) {
