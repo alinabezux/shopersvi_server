@@ -107,19 +107,22 @@ module.exports = {
 
     getAllOrders: async (req, res, next) => {
         try {
-            let { page = 1 } = req.query;
-            const limit = 20;
+            // let { page } = req.query;
+            // page = page || 1;
+            // console.log(page)
+
+            // const limit = 20;
             let count;
 
-            const orders = await Order.find({}).limit(limit).skip((page - 1) * limit);
+            const orders = await Order.find({});
 
             count = await Order.countDocuments();
 
             res.status(200).json({
                 orders,
                 count: count,
-                totalPages: Math.ceil(count / limit),
-                currentPage: page
+                // totalPages: Math.ceil(count / limit),
+                // currentPage: page
             });
         } catch (e) {
             next(e);

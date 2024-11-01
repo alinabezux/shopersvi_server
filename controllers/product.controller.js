@@ -17,7 +17,7 @@ module.exports = {
     getAllProducts: async (req, res, next) => {
         try {
             let { _category, _type, page = 1, isGettingAll } = req.query;
-            const limit = 20;
+            const limit = 10;
             let products;
             let count;
 
