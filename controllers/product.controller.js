@@ -16,52 +16,52 @@ module.exports = {
 
     getAllProducts: async (req, res, next) => {
         try {
-            let { _category, _type, page = 1, isGettingAll } = req.query;
-            const limit = 10;
+            let { _category, _type } = req.query;
+            // const limit = 10;
             let products;
             let count;
 
-            if (JSON.parse(isGettingAll)) {
-                products = await Product.find({})
-                count = await Product.countDocuments();
+            // if (JSON.parse(isGettingAll)) {
+            //     products = await Product.find({})
+            //     count = await Product.countDocuments();
 
-                return res.json({ products, count: count });
-            }
+            //     return res.json({ products, count: count });
+            // }
 
             if (!_category && !_type) {
-                products = (await Product.find({})
-                    .sort({ createdAt: -1 })
-                    .limit(limit)
-                    .skip((page - 1) * limit));
+                products = await Product.find({})
+                    // .sort({ createdAt: -1 })
+                    // .limit(limit)
+                    // .skip((page - 1) * limit));
                 count = await Product.countDocuments();
             }
             if (_category && !_type) {
                 products = await Product.find({ _category })
-                    .sort({ createdAt: -1 })
-                    .limit(limit)
-                    .skip((page - 1) * limit);
+                    // .sort({ createdAt: -1 })
+                    // .limit(limit)
+                    // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category });
             }
             if (!_category && _type) {
                 products = await Product.find({ _type })
-                    .sort({ createdAt: -1 })
-                    .limit(limit)
-                    .skip((page - 1) * limit);
+                    // .sort({ createdAt: -1 })
+                    // .limit(limit)
+                    // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _type });
             };
             if (_category && _type) {
                 products = await Product.find({ _category, _type })
-                    .sort({ createdAt: -1 })
-                    .limit(limit)
-                    .skip((page - 1) * limit);
+                    // .sort({ createdAt: -1 })
+                    // .limit(limit)
+                    // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category, _type });
             }
 
             return res.json({
                 products,
                 count: count,
-                totalPages: Math.ceil(count / limit),
-                currentPage: page
+                // totalPages: Math.ceil(count / limit),
+                // currentPage: page
             });
         } catch (e) {
             return next(e)
