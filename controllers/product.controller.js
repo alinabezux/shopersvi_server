@@ -30,30 +30,30 @@ module.exports = {
 
             if (!_category && !_type) {
                 products = await Product.find({})
-                    // .sort({ createdAt: -1 })
-                    // .limit(limit)
-                    // .skip((page - 1) * limit));
+                // .sort({ createdAt: -1 })
+                // .limit(limit)
+                // .skip((page - 1) * limit));
                 count = await Product.countDocuments();
             }
             if (_category && !_type) {
                 products = await Product.find({ _category })
-                    // .sort({ createdAt: -1 })
-                    // .limit(limit)
-                    // .skip((page - 1) * limit);
+                // .sort({ createdAt: -1 })
+                // .limit(limit)
+                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category });
             }
             if (!_category && _type) {
                 products = await Product.find({ _type })
-                    // .sort({ createdAt: -1 })
-                    // .limit(limit)
-                    // .skip((page - 1) * limit);
+                // .sort({ createdAt: -1 })
+                // .limit(limit)
+                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _type });
             };
             if (_category && _type) {
                 products = await Product.find({ _category, _type })
-                    // .sort({ createdAt: -1 })
-                    // .limit(limit)
-                    // .skip((page - 1) * limit);
+                // .sort({ createdAt: -1 })
+                // .limit(limit)
+                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category, _type });
             }
 
@@ -80,7 +80,8 @@ module.exports = {
 
     uploadImage: async (req, res, next) => {
         try {
-            const imageFiles = req.files.images;
+            const imageFiles = [];
+            imageFiles.push(req.files.images);
 
             const uploadPromises = imageFiles.map(file =>
                 S3service.uploadPublicFile(file, 'products', req.params.productId)
