@@ -30,8 +30,8 @@ module.exports = {
 
             const populatedFavourite = await ProductInFavourite.findById(productInFavourite._id).populate('_product');
 
-            console.log('populatedFavourite')
-            console.log(populatedFavourite)
+            // console.log('populatedFavourite')
+            // console.log(populatedFavourite)
 
             res.status(200).json(populatedFavourite)
         } catch (e) {

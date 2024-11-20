@@ -72,8 +72,8 @@ module.exports = {
             const { id } = req.decoded
 
             const user = await User.findById(id);
-            console.log('user')
-            console.log(user)
+            // console.log('user')
+            // console.log(user)
             
             if (!user || user.isAdmin !== true) {
                 throw new ApiError(403, 'Немає доступу.');

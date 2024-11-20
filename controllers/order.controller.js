@@ -115,15 +115,27 @@ module.exports = {
             let count;
 
             const orders = await Order.find({});
+            for (let order of orders) {
+                if (order.invoiceId) {
+                    const status = await monoService.getInvoiceStatus(order.invoiceId);
+                    if (status.status !== order.paymentStatus) {
+                        order.paymentStatus = status.status;
+                        await order.save();
+                    }
+                }
+            }
+            const updatedOrders = await Order.find({}); // Можна додати фільтри за потреби
+
 
             count = await Order.countDocuments();
 
             res.status(200).json({
-                orders,
+                updatedOrders,
                 count: count,
                 // totalPages: Math.ceil(count / limit),
                 // currentPage: page
             });
+
         } catch (e) {
             next(e);
         }

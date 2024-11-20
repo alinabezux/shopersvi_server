@@ -28,7 +28,7 @@ async function uploadPublicFile(fileToUpload, itemType, itemId) {
 async function deleteImage(itemType, itemId, imageUrl) {
     try {
         const imageName = imageUrl.split('/').pop();
-        console.log('imageName', imageName);
+        // console.log('imageName', imageName);
 
         await s3Bucket.deleteObject({
             Bucket: S3_BUCKET_NAME,

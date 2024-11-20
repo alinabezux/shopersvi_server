@@ -24,7 +24,6 @@ const createInvoice = async (order) => {
             }))
         },
         redirectUrl: `${configs.CLIENT_URL}/order/${order.orderID}`,
-        webHookUrl: `${configs.SERVER_URL}/webhook/paymentStatus`,
     };
 
     try {

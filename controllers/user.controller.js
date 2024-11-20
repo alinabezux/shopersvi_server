@@ -17,7 +17,7 @@ module.exports = {
     getUserById: async (req, res, next) => {
         try {
             const user = req.user
-            console.log(user);
+            // console.log(user);
 
             res.status(200).json(user);
         } catch (e) {
@@ -33,12 +33,12 @@ module.exports = {
                 throw new ApiError(400, 'Немає даних')
             }
 
-            console.log('newInfo')
-            console.log(newInfo)
+            // console.log('newInfo')
+            // console.log(newInfo)
 
             const updatedUser = await User.findByIdAndUpdate(req.params.userId, newInfo, { new: true });
-            console.log('updatedUser')
-            console.log(updatedUser)
+            // console.log('updatedUser')
+            // console.log(updatedUser)
 
             res.status(200).json(updatedUser);
 

@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -11,8 +10,6 @@ require('dotenv').config();
 const ApiError = require('./errors/ApiError');
 const configs = require('./configs/configs');
 const router = require('./routes');
-const monoRouter = require('./routes/mono.router');
-const Order = require('./db/models/Order');
 
 // Create an Express application
 const app = express();
@@ -31,7 +28,6 @@ app.use(cors({
 }));
 
 app.use('/api', router);
-app.use('/webhook', monoRouter);
 
 app.get('/', (req, res) => {
     res.json('WELCOME:)');
@@ -49,38 +45,6 @@ app.use((err, req, res, next) => {
 // Create HTTP server
 const server = http.createServer(app);
 
-// Create Socket.IO server
-const io = socketIo(server, {
-    cors: {
-        origin: configs.CLIENT_URL,
-        methods: ["GET", "POST"]
-    }
-});
-
-// Watch MongoDB for changes
-const pipeline = [
-    {
-        $match: {
-            'updateDescription.updatedFields.paymentStatus': { $exists: true }
-        }
-    }
-];
-
-const changeStream = Order.watch(pipeline);
-
-changeStream.on('change', (change) => {
-    console.log('Change:', change);
-    io.emit('update', change); 
-});
-
-// Handle Socket.IO connections
-io.on('connection', (socket) => {
-    console.log('Client connected');
-
-    socket.on('disconnect', () => {
-        console.log('Client disconnected');
-    });
-});
 
 // Start the server
 server.listen(configs.PORT || 5000, configs.HOST, async () => {

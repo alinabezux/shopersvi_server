@@ -162,12 +162,12 @@ module.exports = {
     deleteProduct: async (req, res, next) => {
         try {
             const { productId } = req.params;
-            console.log('productId')
-            console.log(productId)
+            // console.log('productId')
+            // console.log(productId)
 
             const product = await Product.findById(productId);
-            console.log('product')
-            console.log(product)
+            // console.log('product')
+            // console.log(product)
 
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
