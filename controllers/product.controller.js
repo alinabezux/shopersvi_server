@@ -80,8 +80,10 @@ module.exports = {
 
     uploadImage: async (req, res, next) => {
         try {
-            const imageFiles = [];
-            imageFiles.push(req.files.images);
+            if (!req.files || !req.files.images) {
+                return res.status(400).json({ error: 'No images provided' });
+            }
+            const imageFiles = Array.isArray(req.files.images) ? req.files.images : [req.files.images];
 
             const uploadPromises = imageFiles.map(file =>
                 S3service.uploadPublicFile(file, 'products', req.params.productId)
@@ -90,11 +92,19 @@ module.exports = {
 
             const imageUrls = uploadedImages.map(data => data.Location);
 
+            if (!imageUrls.length) {
+                return res.status(500).json({ error: 'Failed to upload images' });
+            }
+
             const newProduct = await Product.findByIdAndUpdate(
                 req.params.productId,
                 { $push: { images: { $each: imageUrls } } },
                 { new: true }
             );
+            
+            if (!newProduct) {
+                return res.status(404).json({ error: 'Product not found' });
+            }
 
             res.json(newProduct);
         } catch (e) {
