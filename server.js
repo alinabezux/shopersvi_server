@@ -47,7 +47,7 @@ const server = http.createServer(app);
 
 
 // Start the server
-server.listen(configs.PORT || 5000, configs.HOST, async () => {
+server.listen(configs.PORT || 5002, configs.HOST, async () => {
     await mongoose.connect(configs.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,

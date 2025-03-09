@@ -1,4 +1,4 @@
-const Promocode = require('../db/models/Promocode');
+const Promocode = require("../db/models/Promocode");
 
 module.exports = {
     createPromocode: async (req, res, next) => {
