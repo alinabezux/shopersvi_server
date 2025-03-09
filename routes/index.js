@@ -7,10 +7,12 @@ const authRouter = require('./auth.router');
 const basketRouter = require('./basket.router');
 const favouriteRouter = require('./favourite.router');
 const orderRouter = require('./order.router');
+const promocodeRouter = require('./promocode.router');
 
 router.use('/products', productRouter)
 router.use('/categories', categoryRouter);
 router.use('/types', typeRouter);
+router.use('/promocode', promocodeRouter);
 router.use('/users', userRouter);
 router.use('/auth', authRouter);
 router.use('/favorite', favouriteRouter);

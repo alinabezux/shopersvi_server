@@ -25,6 +25,11 @@ productRouter.patch('/:productId/images',
     authMiddleware.checkRole,
     productController.uploadImage);
 
+productRouter.patch('/:productId',
+    authMiddleware.checkAccessToken,
+    authMiddleware.checkRole,
+    productController.addDiscountProduct);
+
 productRouter.delete('/:productId/images',
     authMiddleware.checkAccessToken,
     authMiddleware.checkRole,

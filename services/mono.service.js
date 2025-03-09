@@ -9,6 +9,7 @@ const createInvoice = async (order) => {
     if (order.paymentMethod === CASH) {
         sum = 20000
     } else sum = order.totalSum * 100;
+    console.log(order)
 
     const invoiceData = {
         amount: sum,
@@ -18,7 +19,7 @@ const createInvoice = async (order) => {
             basketOrder: order.orderItems.map(item => ({
                 name: item.name,
                 qty: item.quantity,
-                sum: item.price * 100 * item.quantity,
+                sum: (item.price - item.price / 100 * item.discount )* 100 * item.quantity,
                 icon: item.img,
                 code: item.article,
             }))

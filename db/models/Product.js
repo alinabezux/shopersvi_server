@@ -17,7 +17,11 @@ const productSchema = new Schema({
     },
     quantity: { type: Number, required: true, default: 1 },
     price: { type: Number, required: true },
-    cashback: { type: Number, required: true }
+    cashback: { type: Number, required: true },
+    discount: {
+        type: Number,
+        default: 0, 
+    }
 },
     { timestamps: true }
 )

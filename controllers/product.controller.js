@@ -17,51 +17,29 @@ module.exports = {
     getAllProducts: async (req, res, next) => {
         try {
             let { _category, _type } = req.query;
-            // const limit = 10;
             let products;
             let count;
 
-            // if (JSON.parse(isGettingAll)) {
-            //     products = await Product.find({})
-            //     count = await Product.countDocuments();
-
-            //     return res.json({ products, count: count });
-            // }
-
             if (!_category && !_type) {
                 products = await Product.find({})
-                // .sort({ createdAt: -1 })
-                // .limit(limit)
-                // .skip((page - 1) * limit));
                 count = await Product.countDocuments();
             }
             if (_category && !_type) {
                 products = await Product.find({ _category })
-                // .sort({ createdAt: -1 })
-                // .limit(limit)
-                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category });
             }
             if (!_category && _type) {
                 products = await Product.find({ _type })
-                // .sort({ createdAt: -1 })
-                // .limit(limit)
-                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _type });
             };
             if (_category && _type) {
                 products = await Product.find({ _category, _type })
-                // .sort({ createdAt: -1 })
-                // .limit(limit)
-                // .skip((page - 1) * limit);
                 count = await Product.countDocuments({ _category, _type });
             }
 
             return res.json({
                 products,
                 count: count,
-                // totalPages: Math.ceil(count / limit),
-                // currentPage: page
             });
         } catch (e) {
             return next(e)
@@ -101,7 +79,7 @@ module.exports = {
                 { $push: { images: { $each: imageUrls } } },
                 { new: true }
             );
-            
+
             if (!newProduct) {
                 return res.status(404).json({ error: 'Product not found' });
             }
@@ -169,15 +147,40 @@ module.exports = {
         }
     },
 
+    addDiscountProduct: async (req, res, next) => {
+        try {
+            const { productId } = req.params;
+            console.log(productId)
+            const discount = req.body;
+            console.log(discount)
+            const product = await Product.findById(productId);
+
+            if (!productId || !discount) {
+                return res.status(400).json({ message: "Product ID і знижка обов'язкові." });
+            }
+
+            const discountedPrice = product.price - (product.price / 100 * discount.discount);
+
+            const cashback = Math.trunc(discountedPrice * 0.02)
+
+            const updatedProduct = await Product.findByIdAndUpdate(
+                productId,
+                { $set: { ...discount, cashback } },
+                { new: true }
+            );
+
+            res.status(200).json(updatedProduct);
+
+        } catch (e) {
+            next(e)
+        }
+    },
+
     deleteProduct: async (req, res, next) => {
         try {
             const { productId } = req.params;
-            // console.log('productId')
-            // console.log(productId)
 
             const product = await Product.findById(productId);
-            // console.log('product')
-            // console.log(product)
 
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });

@@ -39,6 +39,7 @@ const orderSchema = new Schema({
         value: { type: Number },
         label: { type: String }
     },
+    freeShipping: { type: Boolean, required: true, default: false },
     email: { type: String, required: true },
     paymentMethod: { type: String, default: CARD, required: true },
     totalSum: { type: Number, required: true },

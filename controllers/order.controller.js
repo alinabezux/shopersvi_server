@@ -7,7 +7,7 @@ module.exports = {
         try {
             const userId = req.user._id;
 
-            const productsInBasket = await ProductInBasket.find({ _user: userId }).populate('_product');
+            const productsInBasket = ((await ProductInBasket.find({ _user: userId }).populate('_product')));
 
             if (productsInBasket.length === 0) {
                 return res.status(400).json({ message: "No products in basket" });
@@ -22,7 +22,8 @@ module.exports = {
                     color: productInBasket._product?.info?.color,
                     size: productInBasket?.size,
                     quantity: productInBasket.quantity,
-                    price: productInBasket._product.price
+                    price: productInBasket._product.price,
+                    discount: productInBasket._product.discount
                 };
             });
 
@@ -60,6 +61,7 @@ module.exports = {
     createOrder: async (req, res, next) => {
         try {
             const productsInBasket = req.body.productsInBasket;
+            сonsole.log(productsInBasket)
 
             if (productsInBasket.length === 0) {
                 return res.status(400).json({ message: "No products in basket" });
@@ -74,6 +76,7 @@ module.exports = {
                     color: productInBasket?.info?.color,
                     size: productInBasket?.size,
                     quantity: productInBasket.quantity,
+                    discount: productInBasket.discount,
                     price: productInBasket.price,
                 };
             });
