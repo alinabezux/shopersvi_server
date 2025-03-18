@@ -61,7 +61,6 @@ module.exports = {
     createOrder: async (req, res, next) => {
         try {
             const productsInBasket = req.body.productsInBasket;
-            сonsole.log(productsInBasket)
 
             if (productsInBasket.length === 0) {
                 return res.status(400).json({ message: "No products in basket" });

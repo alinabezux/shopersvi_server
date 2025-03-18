@@ -19,7 +19,7 @@ const createInvoice = async (order) => {
             basketOrder: order.orderItems.map(item => ({
                 name: item.name,
                 qty: item.quantity,
-                sum: (item.price - item.price / 100 * item.discount )* 100 * item.quantity,
+                sum: Math.round(item.price * (1 - item.discount / 100) * item.quantity * 100),
                 icon: item.img,
                 code: item.article,
             }))
