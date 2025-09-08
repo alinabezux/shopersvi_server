@@ -109,10 +109,10 @@ module.exports = {
 
     getAllOrders: async (req, res, next) => {
         try {
-            let { page } = req.query;
+            let { page, limit } = req.query;
 
             page = parseInt(page) || 1;
-            const limit = 15;
+            limit = parseInt(limit) || 10;
 
             console.log(page)
 
