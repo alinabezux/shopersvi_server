@@ -66,7 +66,7 @@ module.exports = {
         try {
             let { page } = req.query;
             page = parseInt(page) || 1;
-            const limit = 15;
+            const limit = 20;
             const skip = (page - 1) * limit;
 
             const users = await User.find({})
