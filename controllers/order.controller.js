@@ -112,7 +112,7 @@ module.exports = {
             let { page } = req.query;
 
             page = parseInt(page) || 1;
-            const limit = 20;
+            const limit = 15;
 
             console.log(page)
 
