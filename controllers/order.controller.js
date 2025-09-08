@@ -112,7 +112,7 @@ module.exports = {
             let { page } = req.query;
 
             page = parseInt(page) || 1;
-            const limit = 10;
+            const limit = 20;
 
             console.log(page)
 
@@ -133,7 +133,6 @@ module.exports = {
 
                 }
             }
-            // const updatedOrders = await Order.find({}); // Можна додати фільтри за потреби
 
 
             let count = await Order.countDocuments();

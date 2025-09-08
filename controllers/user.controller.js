@@ -65,14 +65,18 @@ module.exports = {
     getAllUsers: async (req, res, next) => {
         try {
             let { page } = req.query;
-            page = page || 1;
-            const limit = 10;
-            let count;
+            page = parseInt(page) || 1;
+            const limit = 20;
+            const skip = (page - 1) * limit;
 
-            const users = await User.find({}).limit(limit).skip((page - 1) * limit);
-            count = await User.countDocuments();
+            const users = await User.find({})
+                .sort({ updatedAt: -1 })
+                .skip(skip)
+                .limit(limit)
 
-            return res.json({
+            let count = await User.countDocuments();
+
+            return res.status(200).json({
                 users,
                 count: count,
                 totalPages: Math.ceil(count / limit),
