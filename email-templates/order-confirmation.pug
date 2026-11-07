@@ -1,0 +1,82 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Ваше замовлення прийнято! — SHOPERS_VI
+    style
+      include style.css
+  body.email-body
+    div.email-wrapper
+      div.brand-header
+        a.brand-logo(href=frontendURL) SHOPERS_VI
+
+      div.order-card
+        div.order-badge-row
+          span.order-badge-light № #{orderID}
+
+        h2.order-greeting-light Дякуємо за замовлення, #{firstName}! 👋
+        p.order-subtitle-light Ваше замовлення успішно прийнято в обробку. Нижче наведено всі деталі вашої покупки.
+
+        div.section-title-light Товари у замовленні
+        table.order-table-light
+          tbody
+            each item in orderItems
+              tr
+                if item.img
+                  td(style="width: 68px; padding-right: 0;")
+                    img.item-thumb-light(src=item.img alt=item.name)
+                td.item-info-light
+                  p.item-name-light #{item.name}
+                  p.item-meta-light
+                    if item.color
+                      span Колір: #{item.color}
+                    if item.size
+                      if item.color
+                        span  | 
+                      span Розмір: #{item.size}
+                    if item.quantity
+                      span  | К-сть: #{item.quantity} шт.
+                td.item-price-light
+                  - var finalPrice = item.discount ? Math.round(item.price * (1 - item.discount / 100)) : item.price
+                  span #{finalPrice * (item.quantity || 1)} грн
+
+        div.section-title-light Деталі доставки
+        div.info-grid-light
+          div.info-row-light
+            span.info-label-light Отримувач:
+            strong.info-val-light #{firstName} #{lastName}
+          div.info-row-light
+            span.info-label-light Телефон:
+            span.info-val-light #{phoneNumber}
+          div.info-row-light
+            span.info-label-light Спосіб доставки:
+            if shipping === 'novapost' || shipping === 'NOVAPOST'
+              span.info-val-light Нова Пошта
+            else if shipping === 'ukrpost' || shipping === 'UKRPOST'
+              span.info-val-light Укрпошта
+            else
+              span.info-val-light #{shipping}
+          if deliveryAddress
+            div.info-row-light
+              span.info-label-light Адреса / Відділення:
+              span.info-val-light #{deliveryAddress}
+          div.info-row-light
+            span.info-label-light Спосіб оплати:
+            if paymentMethod === 'card' || paymentMethod === 'CARD'
+              span.info-val-light Оплата карткою (Monobank)
+            else if paymentMethod === 'cash' || paymentMethod === 'CASH'
+              span.info-val-light Післяплата (з передоплатою 200 грн)
+            else
+              span.info-val-light #{paymentMethod}
+
+        div.total-box-light
+          span.total-title-light До сплати:
+          span.total-value-light #{totalSum} грн
+
+        div.btn-center-light
+          a.btn-primary-light(href=frontendURL) ПЕРЕЙТИ ДО МАГАЗИНУ
+
+      div.footer-light
+        p Слідкуй за нами в Instagram
+        a(href="https://www.instagram.com/shopers_vi/" target="_blank") @shopers_vi

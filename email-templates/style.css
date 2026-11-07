@@ -87,3 +87,223 @@ p.notice {
     margin: 5px;
     text-align: center;
 }
+
+/* Order Confirmation - Light Modern Aesthetic */
+.email-body {
+    background-color: #f7f7f8;
+    margin: 0;
+    padding: 30px 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #111111;
+    text-align: center;
+}
+
+.email-wrapper {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.brand-header {
+    text-align: center;
+    padding: 15px 0 25px 0;
+}
+
+.brand-logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #000000;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.order-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 35px 30px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.order-badge-row {
+    margin-bottom: 15px;
+}
+
+.order-badge-light {
+    display: inline-block;
+    background-color: #f1f3f5;
+    color: #212529;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid #dee2e6;
+}
+
+.order-greeting-light {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: #111111;
+}
+
+.order-subtitle-light {
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+}
+
+.section-title-light {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #222222;
+    border-bottom: 2px solid #f1f3f5;
+    padding-bottom: 8px;
+    margin: 25px 0 15px 0;
+}
+
+.order-table-light {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.order-table-light td {
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f3f5;
+    vertical-align: middle;
+}
+
+.item-thumb-light {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    display: block;
+}
+
+.item-info-light {
+    padding-left: 14px;
+    text-align: left;
+}
+
+.item-name-light {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111111;
+    margin: 0 0 4px 0;
+}
+
+.item-meta-light {
+    font-size: 13px;
+    color: #777777;
+    margin: 0;
+}
+
+.item-price-light {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111111;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.info-grid-light {
+    background-color: #fafbfc;
+    border-radius: 8px;
+    border: 1px solid #edf0f2;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+
+.info-row-light {
+    margin: 7px 0;
+    font-size: 14px;
+    color: #222222;
+    line-height: 1.5;
+}
+
+.info-label-light {
+    color: #777777;
+    display: inline-block;
+    min-width: 140px;
+}
+
+.info-val-light {
+    color: #111111;
+    font-weight: 500;
+}
+
+.total-box-light {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 25px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-title-light {
+    font-size: 16px;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+}
+
+.total-value-light {
+    font-size: 22px;
+    font-weight: 800;
+    color: #000000;
+    margin: 0;
+    text-align: right;
+}
+
+.btn-center-light {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.btn-primary-light {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: #000000;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.footer-light {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+.footer-light p {
+    color: #777777;
+    font-size: 14px;
+    margin: 0 0 6px 0;
+}
+
+.footer-light a {
+    color: #000000;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+}

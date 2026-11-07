@@ -1,6 +1,47 @@
 const Order = require("../db/models/Order");
 const ProductInBasket = require("../db/models/ProductInBasket");
 const monoService = require("../services/mono.service");
+const emailService = require("../services/email.service");
+const { ORDER_CONFIRMATION } = require("../email-templates/email-actions.enum");
+
+const formatDeliveryAddress = (order) => {
+    if (order.shipping === 'ukrpost' || order.shipping === 'UKRPOST') {
+        const parts = [];
+        if (order.region?.label) parts.push(order.region.label);
+        if (order.cityUKR) parts.push(order.cityUKR);
+        if (order.index) parts.push(`індекс ${order.index}`);
+        return parts.join(', ');
+    } else {
+        const parts = [];
+        if (order.city?.description) parts.push(order.city.description);
+        if (order.warehouse?.description) parts.push(order.warehouse.description);
+        return parts.join(', ');
+    }
+};
+
+const sendOrderConfirmationEmail = async (order) => {
+    try {
+        if (!order || !order.email) return;
+
+        const deliveryAddress = formatDeliveryAddress(order);
+
+        await emailService.sendEmail(order.email, ORDER_CONFIRMATION, {
+            subject: `Ваше замовлення № ${order.orderID} прийнято! — SHOPERS_VI`,
+            orderID: order.orderID,
+            firstName: order.firstName,
+            lastName: order.lastName,
+            phoneNumber: order.phoneNumber,
+            shipping: order.shipping,
+            deliveryAddress,
+            paymentMethod: order.paymentMethod,
+            totalSum: order.totalSum,
+            orderItems: order.orderItems || [],
+        });
+        console.log(`Order confirmation email sent to ${order.email} for order ${order.orderID}`);
+    } catch (err) {
+        console.error('Failed to send order confirmation email:', err);
+    }
+};
 
 module.exports = {
     createOrderAuth: async (req, res, next) => {
@@ -34,6 +75,8 @@ module.exports = {
             };
 
             const order = await Order.create(orderData);
+            await sendOrderConfirmationEmail(order);
+
             const invoice = await monoService.createInvoice(order)
             // console.log('invoice:', invoice);
             const status = await monoService.getInvoiceStatus(invoice.invoiceId)
@@ -86,6 +129,8 @@ module.exports = {
             };
 
             const order = await Order.create(orderData);
+            await sendOrderConfirmationEmail(order);
+
             const invoice = await monoService.createInvoice(order);
             // console.log('invoice:', invoice);
 
@@ -125,12 +170,15 @@ module.exports = {
 
             for (let order of orders) {
                 if (order.invoiceId) {
-                    const status = await monoService.getInvoiceStatus(order.invoiceId);
-                    if (status.status !== order.paymentStatus) {
-                        order.paymentStatus = status.status;
-                        await order.save();
+                    try {
+                        const status = await monoService.getInvoiceStatus(order.invoiceId);
+                        if (status && status.status !== order.paymentStatus) {
+                            order.paymentStatus = status.status;
+                            await order.save();
+                        }
+                    } catch (monoErr) {
+                        // Monobank invoice expired, not found, or test invoice — do not crash the orders page
                     }
-
                 }
             }
 

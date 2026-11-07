@@ -1,4 +1,4 @@
-const { WELCOME, FORGOT_PASSWORD } = require("./email-actions.enum");
+const { WELCOME, FORGOT_PASSWORD, ORDER_CONFIRMATION } = require("./email-actions.enum");
 
 module.exports = {
     [WELCOME]: {
@@ -8,5 +8,9 @@ module.exports = {
     [FORGOT_PASSWORD]: {
         subject: 'Новий пароль SHOPERS_VI',
         templateName: 'forgot-pass'
+    },
+    [ORDER_CONFIRMATION]: {
+        subject: 'Ваше замовлення прийнято! — SHOPERS_VI',
+        templateName: 'order-confirmation'
     }
 }

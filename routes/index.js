@@ -8,6 +8,7 @@ const basketRouter = require('./basket.router');
 const favouriteRouter = require('./favourite.router');
 const orderRouter = require('./order.router');
 const promocodeRouter = require('./promocode.router');
+const bannerRouter = require('./banner.router');
 
 router.use('/products', productRouter)
 router.use('/categories', categoryRouter);
@@ -18,6 +19,7 @@ router.use('/auth', authRouter);
 router.use('/favorite', favouriteRouter);
 router.use('/basket', basketRouter);
 router.use('/order', orderRouter);
+router.use('/banner', bannerRouter);
 
 module.exports = router;
 

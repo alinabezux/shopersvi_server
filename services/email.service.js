@@ -22,10 +22,9 @@ const sendEmail = async (receiverMail, emailAction, locals = {}) => {
 
     const templateRenderer = new EmailTemplates({
         views: {
-            root: path.join(process.cwd(), 'email-templates')
+            root: path.join(__dirname, '../email-templates')
         }
     });
-
 
     Object.assign(locals || {}, { frontendURL: CLIENT_URL });
 
@@ -34,7 +33,7 @@ const sendEmail = async (receiverMail, emailAction, locals = {}) => {
     return transporter.sendMail({
         from: 'SHOPERS_VI',
         to: receiverMail,
-        subject: templateInfo.subject,
+        subject: locals.subject || templateInfo.subject,
         html
     })
 
